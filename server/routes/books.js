@@ -26,35 +26,45 @@ router.get('/', (req, res, next) => {
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    res.render('books/details', {
+      title: 'Add/Edit Books',
+      books: {}
+    });
 
 });
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
-
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+  book.insertMany(req.body)
+    .then(result => {
+      res.redirect('/books');
+    })
+    .catch(err => console.log(err))
 });
 
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
+    const { id } = req.params;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    if(id) {
+      book.findById(id).then(result => {
+        res.render('books/details', {
+          title: 'Add/Edit Books',
+          books: result
+        });
+      })
+    }
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
+    const { id } = req.params;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    if(id) {
+      book.findByIdAndUpdate(id, req.body).then(result => {
+        res.redirect('/books');
+      })
+    }
 
 });
 
