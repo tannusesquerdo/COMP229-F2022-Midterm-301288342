@@ -70,10 +70,13 @@ router.post('/:id', (req, res, next) => {
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
+    const { id } = req.params;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    if(id) {
+      book.findByIdAndDelete(id).then(result => {
+        res.redirect('/books');
+      })
+    }
 });
 
 
